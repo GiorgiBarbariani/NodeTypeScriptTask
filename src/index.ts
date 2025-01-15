@@ -17,6 +17,7 @@ interface ProcessIdsRequestBody {
 app.post(
   '/process-ids',
   async (req: Request<{}, {}, ProcessIdsRequestBody>, res: any) => { 
+    console.log('res',res)
     const { ids } = req.body;
 
     if (!Array.isArray(ids)) {
