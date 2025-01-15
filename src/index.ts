@@ -1,12 +1,12 @@
 import express from 'express';
-import { Express, Request, Response} from 'express';
+import { Express, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import { queue } from './queues/jobQueue';
 import { startPubSub } from './pubsub/pubSub';
 
 dotenv.config();
-const app: Express = express()
+const app: Express = express();
 
 app.use(bodyParser.json());
 
@@ -14,10 +14,9 @@ interface ProcessIdsRequestBody {
   ids: number[];
 }
 
-// POST /process-ids
 app.post(
   '/process-ids',
-  async (req: Request<{}, ProcessIdsRequestBody>, res: Response) => {
+  async (req: Request<{}, {}, ProcessIdsRequestBody>, res: any) => { 
     const { ids } = req.body;
 
     if (!Array.isArray(ids)) {
@@ -31,7 +30,7 @@ app.post(
     res.send({ message: 'Jobs have been added to the queue.' });
   }
 );
-// Start server and Pub/Sub
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
